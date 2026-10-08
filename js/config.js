@@ -49,7 +49,7 @@ const CONFIG = {
        invitados de prueba de abajo y no guarda nada.
      deadline: texto opcional con la fecha límite para confirmar. */
   rsvp: {
-    scriptUrl: "",
+    scriptUrl: "https://script.google.com/macros/s/AKfycbwJodDbN5v3ZKKCXIPyL-Ngbg0JwIDBIARhmi0EbR_7Jbtm7c_1Oa-QkvJU0yUuLcOw/exec",
     deadline: "Confirma antes del 15 de noviembre"
   },
 
