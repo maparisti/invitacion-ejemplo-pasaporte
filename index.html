@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Invitación web de ejemplo - @maparisti">
+    <title>Boda Karen y Juan · Invitación de ejemplo</title>
+    <!-- El favicon se genera en js/main.js con las iniciales y la paleta -->
+    <link rel="icon" id="favicon" href="data:,">
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin>
+    <link rel="preload" as="image" href="assets/leather-texture-gray.webp" type="image/webp">
+    <link rel="stylesheet" href="https://use.typekit.net/hej5yfk.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/global.css">
+
+    <!-- Configuración del cliente (paleta, nombres, enlaces). Va en el
+         <head> para aplicar la paleta antes de pintar la página. -->
+    <script src="js/config.js"></script>
+</head>
+<body>
+    <!-- Biblioteca de dibujos SVG (olas, íconos, mapa...). Ver js/dibujos.js -->
+    <script src="js/dibujos.js"></script>
+
+    <div id="pageLoader" class="page-loader">
+        <svg class="page-loader__icon" viewBox="0 0 60 57" role="img" aria-label="Cargando invitación"><use href="#loader"></use></svg>
+    </div>
+   <main>
+        <section class="passport-cover" id="passportCover">
+            <div class="passport-cover__content">
+                <div class="passport-cover__main">
+                <h1 class="passport-cover__title">PASAPORTE</h1>
+
+                <img
+                    class="passport-cover__seal"
+                    src="assets/sellokj.svg"
+                    alt="Sello decorativo con las iniciales K y J y la fecha de la boda"
+                >
+
+                <p class="passport-cover__subtitle">¡Al viaje de nuestras vidas!</p>
+                </div>
+
+                <button class="passport-cover__hint" id="openInvitation" type="button">
+                    Toca aquí para continuar
+                </button>
+            </div>
+        </section>
+        <div id="invitationContent" class="invitation-content">
+            <section class="journey">
+                <div class="journey__background">
+                    <div class="journey__top">
+                        <svg class="journey__map" viewBox="0 0 431 528.72" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#map"></use></svg>
+
+                        <div class="journey__top-content">
+                            <h2 class="journey__intro">
+                                Después de<br>3 años juntos
+                            </h2>
+
+                            <p class="journey__invite">
+                                Prepara tus maletas<br>y acompáñanos
+                            </p>
+                        </div>
+                    </div>
+
+                    <article class="boarding-pass">
+                        <div class="boarding-pass__photo-wrapper">
+                            <img
+                            class="boarding-pass__photo"
+                            src="assets/couple-photo.webp"
+                            width="800" height="800"
+                            loading="lazy" decoding="async"
+                            alt="Foto de la pareja"
+                            >
+                        </div>
+
+                        <div class="boarding-pass__content">
+                            <h3 class="boarding-pass__title">PASE DE ABORDAR</h3>
+
+                            <div class="boarding-pass__info">
+                                <div class="boarding-pass__group">
+                                    <p class="boarding-pass__label">PASAJEROS</p>
+                                    <p class="boarding-pass__value boarding-pass__value--handwritten" id="passengers">
+                                    Invitado especial
+                                    </p>
+                                </div>
+
+                                <div class="boarding-pass__group">
+                                    <p class="boarding-pass__label">FECHA</p>
+                                    <p class="boarding-pass__value boarding-pass__value--handwritten">
+                                    18 de diciembre de 2026
+                                    </p>
+                                </div>
+
+                                <div class="boarding-pass__group">
+                                    <p class="boarding-pass__label">DESTINO</p>
+                                    <p class="boarding-pass__value boarding-pass__value--handwritten">
+                                    Bogotá, Colombia
+                                    </p>
+                                </div>
+                            </div>
+
+                            <p class="boarding-pass__note">
+                            Revisa el itinerario<br>más abajo
+                            </p>
+
+                            <svg class="boarding-pass__stamp" viewBox="0 0 109.5 207.58" aria-hidden="true"><use href="#boarding-stamp"></use></svg>
+                        </div>
+                    </article>
+
+                    <!-- ===== ITINERARIO: HORA Y LUGAR ===== -->
+                    <section class="itinerary" aria-labelledby="itineraryTitle">
+                        <h2 class="itinerary__title" id="itineraryTitle">Itinerario</h2>
+                        <p class="itinerary__subtitle">Hora y lugar de nuestro gran día</p>
+
+                        <ol class="itinerary__route">
+                            <li class="itinerary__stop">
+                                <p class="itinerary__time">4:00<span>p.m.</span></p>
+
+                                <div class="itinerary__info">
+                                    <p class="itinerary__label">CEREMONIA</p>
+                                    <p class="itinerary__place">Parroquia Santa María de los Ángeles</p>
+                                    <p class="itinerary__address">Calle 00 # 00-00, Bogotá</p>
+                                    <a class="itinerary__link"
+                                        href="https://www.google.com/maps/search/?api=1&amp;query=Bogot%C3%A1%2C%20Colombia"
+                                        target="_blank"
+                                        rel="noopener noreferrer">
+                                        Cómo llegar
+                                    </a>
+                                </div>
+                            </li>
+
+                            <li class="itinerary__plane" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="22" height="22">
+                                    <path fill="currentColor" d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5Z"/>
+                                </svg>
+                            </li>
+
+                            <li class="itinerary__stop">
+                                <p class="itinerary__time">6:30<span>p.m.</span></p>
+
+                                <div class="itinerary__info">
+                                    <p class="itinerary__label">RECEPCIÓN</p>
+                                    <p class="itinerary__place">Hacienda El Mirador</p>
+                                    <p class="itinerary__address">Km 0 vía La Calera, Cundinamarca</p>
+                                    <a class="itinerary__link"
+                                        href="https://www.google.com/maps/search/?api=1&amp;query=La%20Calera%2C%20Cundinamarca"
+                                        target="_blank"
+                                        rel="noopener noreferrer">
+                                        Cómo llegar
+                                    </a>
+                                </div>
+                            </li>
+                        </ol>
+                    </section>
+                </div>
+            </section>
+            <section class="details-section">
+                <div class="details-section__photo details-section__photo--top">
+                    <img src="assets/dance-1.webp" width="860" height="1356" loading="lazy" decoding="async" alt="" aria-hidden="true">
+                </div>
+
+                <div class="details-wave details-wave--light details-wave--dresscode">
+                    <svg class="details-wave__shape" viewBox="0 0 431.5 347.49" aria-hidden="true"><use href="#wave-light-1"></use></svg>
+
+                    <div class="details-wave__content details-wave__content--light">
+                        <svg class="details-wave__icon" viewBox="0 0 46.59 62.5" aria-hidden="true"><use href="#icon-dresscode"></use></svg>
+
+                        <h2 class="details-wave__title">Dress Code</h2>
+                        <p class="details-wave__subtitle details-wave__subtitle--accent">Formal</p>
+
+                        <p class="details-wave__text">
+                            Color blanco, marfil, crema, beige,<br>
+                            champagne, nude y rose gold están reservados<br>
+                            ¡Nos encantara verte en otros colores!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="details-section__photo details-section__photo--bottom">
+                    <img src="assets/dance-2.webp" width="860" height="1040" loading="lazy" decoding="async" alt="" aria-hidden="true">
+                </div>
+
+                <div class="details-wave details-wave--dark details-wave--gifts">
+                    <svg class="details-wave__shape" viewBox="0 0 431.95 336.02" aria-hidden="true"><use href="#wave-dark"></use></svg>
+
+                    <div class="details-wave__content details-wave__content--dark">
+                        <svg class="details-wave__icon" viewBox="0 0 64.29 55.54" aria-hidden="true"><use href="#icon-gifts"></use></svg>
+
+                        <h2 class="details-wave__title">Regalos</h2>
+                        <p class="details-wave__subtitle details-wave__subtitle--light">Lluvia de sobres</p>
+
+                        <p class="details-wave__text details-wave__text--light">
+                            Tu presencia es nuestro mejor regalo, pero si<br>
+                            deseas obsequiarnos algo, recibiremos con<br>
+                            cariño tu sobre.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="details-wave details-wave--light details-wave--rsvp">
+                    <svg class="details-wave__shape" viewBox="0 0 432 374.56" aria-hidden="true"><use href="#wave-light-2"></use></svg>
+
+                    <div class="details-wave__content details-wave__content--light">
+                        <h2 class="details-wave__title details-wave__title--script">¿Nos acompañas?</h2>
+
+                        <p class="details-wave__subtitle details-wave__subtitle--accent">
+                            Confirma tu asistencia
+                        </p>
+
+                        <a class="details-wave__ticket-link"
+                            id="rsvpLink"
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Confirmar asistencia">
+
+                            <svg class="details-wave__ticket-icon" viewBox="0 0 84.16 87.54" aria-hidden="true"><use href="#icon-ticket"></use></svg>
+                        </a>
+
+                        <p class="details-wave__hint">(Haz click en los tickets)</p>
+                    </div>
+                </div>
+            </section>
+            <section class="memories-section">
+                <div class="memories-section__content">
+                    <h2 class="memories-section__title">Recuerdos de nuestro amor</h2>
+
+                    <p class="memories-section__text">
+                    Bastaba una decisión diferente, otro país o más tiempo lejos para no coincidir jamás,
+                    pero el destino tenía otros planes.
+                    </p>
+
+                    <div class="memories-carousel" id="memoriesCarousel">
+                        <div class="memories-carousel__track">
+                            <article class="memories-carousel__slide">
+                            <img src="assets/memory-1.webp" width="500" height="500" loading="lazy" decoding="async" alt="Recuerdo de la pareja 1">
+                            </article>
+
+                            <article class="memories-carousel__slide">
+                            <img src="assets/memory-2.webp" width="500" height="500" loading="lazy" decoding="async" alt="Recuerdo de la pareja 2">
+                            </article>
+
+                            <article class="memories-carousel__slide">
+                            <img src="assets/memory-3.webp" width="500" height="500" loading="lazy" decoding="async" alt="Recuerdo de la pareja 3">
+                            </article>
+
+                            <article class="memories-carousel__slide">
+                            <img src="assets/memory-4.webp" width="500" height="500" loading="lazy" decoding="async" alt="Recuerdo de la pareja 4">
+                            </article>
+
+                            <article class="memories-carousel__slide">
+                            <img src="assets/memory-5.webp" width="500" height="500" loading="lazy" decoding="async" alt="Recuerdo de la pareja 5">
+                            </article>
+
+                            <article class="memories-carousel__slide">
+                            <img src="assets/memory-6.webp" width="500" height="500" loading="lazy" decoding="async" alt="Recuerdo de la pareja 6">
+                            </article>
+                        </div>
+                    </div>
+                    <div class="memories-carousel__nav">
+                        <button class="memories-carousel__arrow" id="memoriesPrev" type="button" aria-label="Foto anterior">
+                            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+
+                        <div class="memories-carousel__dots" aria-hidden="true" id="memoriesDots">
+                            <span class="memories-carousel__dot"></span>
+                            <span class="memories-carousel__dot"></span>
+                            <span class="memories-carousel__dot"></span>
+                            <span class="memories-carousel__dot"></span>
+                            <span class="memories-carousel__dot"></span>
+                            <span class="memories-carousel__dot"></span>
+                        </div>
+
+                        <button class="memories-carousel__arrow" id="memoriesNext" type="button" aria-label="Foto siguiente">
+                            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <section class="album-section">
+                <div class="album-section__content">
+                    <h2 class="album-section__title">
+                    Nuestro equipaje favorito<br>
+                    serán estos recuerdos
+                    </h2>
+
+                    <p class="album-section__text album-section__text--accent">
+                    Comparte tus fotos y videos en Instagram con
+                    </p>
+
+                    <p class="album-section__hashtag">#karenyjuan</p>
+
+                    <p class="album-section__text album-section__text--accent">
+                    Y súbelos también a nuestro álbum en la nube<br>
+                    escaneando este código.
+                    </p>
+
+                    <!-- El enlace y el QR salen de CONFIG.albumUrl (js/config.js) -->
+                    <a
+                        id="albumLink"
+                        class="album-section__qr-link"
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Abrir el álbum de fotos"
+                        >
+                        <span class="album-section__qr" id="albumQr" role="img" aria-label="Código QR para el álbum de fotos"></span>
+                    </a>
+                </div>
+            </section>
+            <section class="final-card-section">
+                <div class="final-card-section__content">
+                    <div class="final-card-section__card">
+                        <!-- Tarjeta final: antes era una sola imagen; ahora es HTML
+                             para que cambie con la paleta y los nombres -->
+                        <article class="final-card">
+                            <img class="final-card__photo" src="assets/final-card-photo.webp" width="1040" height="634" loading="lazy" decoding="async" alt="">
+
+                            <p class="final-card__text">
+                                Para este gran viaje, solo hace<br>
+                                falta tu compañía y tus ganas<br>
+                                de disfrutar.
+                            </p>
+
+                            <svg class="final-card__landmarks" viewBox="0 0 1116 350" aria-hidden="true"><use href="#landmarks"></use></svg>
+
+                            <svg class="final-card__closing" viewBox="0 0 488 107" role="img" aria-label="¡Te esperamos!"><use href="#te-esperamos"></use></svg>
+
+                            <!-- Líneas tipo pasaporte con los nombres (las llena main.js) -->
+                            <div class="final-card__mrz" aria-hidden="true">
+                                <p class="final-card__mrz-line" id="mrzLine1"></p>
+                                <p class="final-card__mrz-line final-card__mrz-line--end" id="mrzLine2"></p>
+                            </div>
+                        </article>
+                    </div>
+
+                    <p class="final-card-section__credit">Designed by @maparisti - @dreamerlab</p>
+                </div>
+            </section>
+        </div>
+    </main>
+    <div id="demoNotice" class="demo-notice" role="status">
+        Esta es una invitación de ejemplo. Aquí tus invitados confirman su asistencia.
+    </div>
+
+    <!-- Música: el archivo se define en js/config.js (CONFIG.music.file) -->
+    <audio id="bgMusic" loop preload="none"></audio>
+
+    <button id="musicToggle" class="music-toggle" type="button" aria-label="Reproducir música" aria-pressed="false">
+        ♪
+    </button>
+
+    <script src="js/qrcode.min.js" defer></script>
+    <script src="js/main.js" defer></script>
+</body>
+</html>

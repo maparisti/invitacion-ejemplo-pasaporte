@@ -1,0 +1,72 @@
+/* =========================================================
+   PALETAS DE COLOR
+   ---------------------------------------------------------
+   Cada paleta tiene 6 colores con un ROL fijo. Todo el sitio
+   (textos, fondos, dibujos SVG y texturas) usa estos roles,
+   así que al cambiar de paleta cambia todo junto.
+
+   --color-dark       Títulos y textos principales (el más oscuro)
+   --color-secondary  Textos secundarios (nombre de lugares)
+   --color-main       Color protagonista: pase de abordar, fondos
+                      medios, ilustraciones
+   --color-accent     Subtítulos y detalles decorativos
+   --color-soft       Detalles suaves sobre el color main (sellos,
+                      textos pequeños)
+   --color-light      Fondos claros y textos sobre fondos oscuros
+
+   Texturas (se tiñen con mix-blend-mode, ver global.css):
+   --color-cover      Color del cuero de la portada
+   --color-paper      Color del papel de fondo
+
+   La paleta se elige en js/config.js (theme: "rosa").
+   ========================================================= */
+
+/* ----- 1. Rosa vino (original) ----- */
+:root,
+:root[data-theme="rosa"] {
+  --color-dark: #401e1d;
+  --color-secondary: #6e4f49;
+  --color-main: #a98583;
+  --color-accent: #c99a96;
+  --color-soft: #d4b8b5;
+  --color-light: #f3e7e2;
+}
+
+/* ----- 2. Salvia y dorado (bodas en jardín o finca) ----- */
+:root[data-theme="salvia"] {
+  --color-dark: #2e3a2c;
+  --color-secondary: #56634d;
+  --color-main: #8c9a7e;
+  --color-accent: #b08d57;
+  --color-soft: #d8dfcc;
+  --color-light: #f3f0e7;
+}
+
+/* ----- 3. Azul marino y arena (playa o de noche) ----- */
+:root[data-theme="marino"] {
+  --color-dark: #1d2b40;
+  --color-secondary: #3f5473;
+  --color-main: #7d93ad;
+  --color-accent: #b8916a;
+  --color-soft: #d3dce6;
+  --color-light: #f4f0e8;
+}
+
+/* ----- 4. Terracota y arena (boho, México, costa) ----- */
+:root[data-theme="terracota"] {
+  --color-dark: #4a2318;
+  --color-secondary: #7a3e2b;
+  --color-main: #b4735a;
+  --color-accent: #c0835a;
+  --color-soft: #efd6c4;
+  --color-light: #f7eee6;
+}
+
+/* ----- Colores derivados (no hace falta tocarlos) -----
+   Si una paleta necesita otro color de cuero, se puede
+   sobrescribir dentro de su bloque, por ejemplo:
+   :root[data-theme="marino"] { --color-cover: var(--color-secondary); } */
+:root {
+  --color-cover: var(--color-main);
+  --color-paper: color-mix(in srgb, var(--color-light) 60%, #ffffff);
+}

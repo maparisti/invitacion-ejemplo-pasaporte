@@ -1,0 +1,1039 @@
+/* Biblioteca de dibujos (js/dibujos.js): existe pero no ocupa espacio.
+   No se usa display:none porque rompe los degradados del mapa. */
+.svg-library {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+/* Todos los dibujos que usan <use> se comportan como imágenes */
+svg:has(> use) {
+    display: block;
+}
+
+body {
+    font-family: "josefin-sans", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    background-color: var(--color-main);
+}
+
+.page-loader {
+  position: fixed;
+  inset: 0;
+  background-color: var(--color-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.page-loader__icon {
+  width: 72px;
+  height: 72px;
+  color: var(--color-accent);
+  opacity: 0.75;
+}
+
+.page-loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.invitation-content {
+    display: none;
+}
+
+.invitation-content--visible {
+    display: block;
+}
+
+body.invitation-locked {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.passport-cover__hint:focus {
+    outline: none;
+}
+
+.passport-cover {
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+    /* Textura gris + color de la paleta, mezclados con "multiply" */
+    background-color: var(--color-cover);
+    background-image: url("../assets/leather-texture-gray.webp");
+    background-blend-mode: multiply;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.passport-cover__content {
+    width: 100%;
+    max-width: 20rem;
+    min-height: calc(100vh - 4rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.passport-cover__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.passport-cover__title {
+    font-family: "alegreya", serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2rem;
+    letter-spacing: 0.12em;
+    color: var(--color-light);
+}
+
+.passport-cover__seal {
+    width: 11rem;
+    margin-top: 2.5rem;
+}
+
+.passport-cover__subtitle {
+    margin-top: 2rem;
+    max-width: 12rem;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    color: var(--color-light);
+}
+
+.passport-cover__hint {
+    margin-top: auto;
+    margin-bottom: 4rem;
+    font-family: "josefin-sans", sans-serif;
+    font-size: 0.75rem;
+    color: var(--color-light);
+    opacity: 0.9;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.journey {
+    background-color: var(--color-light);
+}
+
+.journey__background {
+    position: relative;
+    padding: 2.25rem 0 0;
+    background-color: var(--color-paper);
+    background-image: url("../assets/paper-texture-gray.webp");
+    background-blend-mode: multiply;
+    background-repeat: repeat;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.journey__top {
+    position: relative;
+    height: 38.375rem; /* 614px */
+    margin-bottom: 0;
+    overflow: hidden;
+}
+
+.journey__map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--color-dark); /* ruta, avión y texto del mapa */
+    opacity: 1;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.journey__top-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    padding: 2rem 1.25rem 0;
+}
+
+.journey__intro {
+    max-width: 10rem;
+    margin: 0;
+    font-family: "modish", serif;
+    font-size: 2.1875rem; /* 35px */
+    line-height: 0.92;
+    font-weight: 400;
+    color: var(--color-dark);
+    text-align: left;
+}
+
+.journey__route {
+    position: absolute;
+    top: 11.25rem;
+    left: 4.4rem;
+    width: 15.8rem;
+    max-width: none;
+    margin: 0;
+    z-index: 1;
+}
+
+.journey__invite {
+    position: absolute;
+    right: 1.2rem;
+    top: 31.8rem;
+    max-width: 13rem;
+    margin: 0;
+    font-family: "modish", serif;
+    font-size: 2.1875rem; /* 35px */
+    line-height: 0.95;
+    font-weight: 400;
+    color: var(--color-dark);
+    text-align: right;
+}
+
+.boarding-pass {
+    position: relative;
+    margin: 0 1rem 0;
+    background-color: var(--color-main);
+    border-radius: 1rem;
+    overflow: hidden;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.boarding-pass__photo-wrapper {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.boarding-pass__photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    padding: 0.6rem;
+}
+
+.boarding-pass__content {
+    position: relative;
+    z-index: 1;
+    color: var(--color-light);
+}
+
+.boarding-pass__title {
+    margin: 0 0 1rem;
+    padding: 0.65rem 0;
+    border-top: 2px dashed color-mix(in srgb, var(--color-light) 90%, transparent);
+    border-bottom: 2px dashed color-mix(in srgb, var(--color-light) 90%, transparent);
+    font-family: "alegreya", serif;
+    font-size: 1.5625rem; /* 25px */
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-align: center;
+    color: var(--color-light);
+}
+
+.boarding-pass__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.boarding-pass__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+}
+
+.boarding-pass__label {
+    margin: 0;
+    font-family: "josefin-sans", sans-serif;
+    font-size: 1.0625rem; /* 17px */
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--color-dark);
+    padding-bottom: 0.50rem;
+}
+
+.boarding-pass__value {
+    margin: 0;
+    color: var(--color-light);
+}
+
+.boarding-pass__value--handwritten {
+    max-width: 12rem;
+    font-family: "edu-nsw-act-hand-precursive", sans-serif;
+    font-size: 0.85rem; /* 15px */
+    line-height: 1.2;
+    font-weight: 500;
+}
+
+#passengers {
+    line-height: 1.8;
+}
+
+.boarding-pass__note {
+    margin: 0.50rem auto 0;
+    max-width: 15rem;
+    font-family: "josefin-sans", sans-serif;
+    font-size: 0.85rem; /* 15px */
+    line-height: 1.05;
+    font-weight: 400;
+    text-align: center;
+    color: var(--color-dark);
+}
+
+.boarding-pass__stamp {
+    position: absolute;
+    right: -1.5rem;
+    bottom: 1rem;
+    width: 7rem;
+    height: auto;
+    color: var(--color-soft);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ===== ITINERARIO (HORA Y LUGAR) ===== */
+
+.itinerary {
+    position: relative;
+    margin: 0 1rem;
+    padding: 0.5rem 0 3rem;
+    text-align: center;
+    color: var(--color-dark);
+}
+
+.itinerary__title {
+    margin: 0;
+    font-family: "modish", serif;
+    font-size: 2.1875rem; /* 35px */
+    line-height: 0.95;
+    font-weight: 400;
+    color: var(--color-dark);
+}
+
+.itinerary__subtitle {
+    margin-top: 0.5rem;
+    font-family: "edu-nsw-act-hand-precursive", sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    font-weight: 500;
+    color: var(--color-accent);
+}
+
+.itinerary__route {
+    margin: 1.75rem 0 0;
+    padding: 1.25rem 0;
+    list-style: none;
+    border-top: 2px dashed var(--color-main);
+    border-bottom: 2px dashed var(--color-main);
+}
+
+.itinerary__stop {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    align-items: start;
+    gap: 1rem;
+    text-align: left;
+}
+
+.itinerary__time {
+    margin: 0;
+    padding-right: 1rem;
+    border-right: 2px dashed var(--color-main);
+    font-family: "alegreya", serif;
+    font-size: 1.75rem;
+    line-height: 1;
+    font-weight: 500;
+    text-align: right;
+    color: var(--color-dark);
+}
+
+.itinerary__time span {
+    display: block;
+    margin-top: 0.3rem;
+    font-family: "josefin-sans", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--color-main);
+}
+
+.itinerary__label {
+    margin: 0;
+    font-family: "josefin-sans", sans-serif;
+    font-size: 1.0625rem; /* 17px, igual al pase */
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--color-dark);
+}
+
+.itinerary__place {
+    margin: 0.45rem 0 0;
+    font-family: "edu-nsw-act-hand-precursive", sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    font-weight: 500;
+    color: var(--color-secondary);
+}
+
+.itinerary__address {
+    margin: 0.3rem 0 0;
+    font-family: "josefin-sans", sans-serif;
+    font-size: 0.75rem;
+    line-height: 1.3;
+    color: var(--color-main);
+}
+
+.itinerary__link {
+    display: inline-block;
+    margin-top: 0.7rem;
+    padding: 0.45rem 0.9rem 0.35rem;
+    border: 1.5px solid var(--color-dark);
+    border-radius: 999px;
+    font-family: "josefin-sans", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-dark);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.itinerary__link:hover,
+.itinerary__link:focus-visible {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+}
+
+.itinerary__plane {
+    display: flex;
+    justify-content: center;
+    padding: 0.9rem 0;
+    color: var(--color-accent);
+}
+
+.itinerary__plane svg {
+    transform: rotate(180deg);
+}
+
+.details-section {
+    background-color: var(--color-main);
+    position: relative;
+}
+
+/* ===== FOTOS ===== */
+
+.details-section__photo {
+    position: relative;
+    width: 100%;
+}
+
+.details-section__photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.details-section__photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--color-dark) 30%, transparent);
+    pointer-events: none;
+}
+
+/* ===== ONDAS ===== */
+
+.details-wave {
+    position: relative;
+    width: 100%;
+    z-index: 2;
+}
+
+.details-wave__shape {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Color de cada ola */
+.details-wave--light .details-wave__shape {
+    color: var(--color-light);
+}
+
+.details-wave--dark .details-wave__shape {
+    color: var(--color-main);
+}
+
+.details-wave--dresscode {
+    position: absolute;
+    top: 0rem;
+    margin-bottom: -7rem;
+}
+
+.details-wave--gifts {
+    position: absolute;
+    top: 32rem;
+}
+
+.details-wave--rsvp {
+    position: absolute;
+    top: 64rem;
+}
+
+/* ===== CONTENIDO ===== */
+
+.details-wave__content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.details-wave__content--light {
+    color: var(--color-dark);
+}
+
+.details-wave__content--dark {
+    color: var(--color-dark);
+    top: 3rem;
+}
+
+/* ===== DRESS CODE ===== */
+
+.details-wave--dresscode .details-wave__content {
+    padding-top: 1.2rem;
+    top: 4rem
+}
+
+.details-wave--dresscode .details-wave__icon {
+    width: 2rem;
+    margin-bottom: 0.55rem;
+}
+
+.details-wave--dresscode .details-wave__title {
+    margin: 0;
+}
+
+/* ===== REGALOS ===== */
+
+.details-wave--gifts .details-wave__content {
+    padding-top: 1.4rem;
+}
+
+.details-wave--gifts .details-wave__icon {
+    width: 3.5rem;
+    margin-bottom: 0.55rem;
+}
+
+.details-wave--gifts .details-wave__title {
+    margin: 0;
+}
+
+/* ===== RSVP ===== */
+
+.details-wave--rsvp .details-wave__content {
+    padding-top: 1.8rem;
+    top: 2rem;
+}
+
+.details-wave--rsvp .details-wave__title {
+    margin: 0;
+}
+
+.details-wave--rsvp .details-wave__subtitle {
+    margin-top: 0.65rem;
+}
+
+/* ===== ELEMENTOS GENERALES ===== */
+
+.details-wave__icon {
+    display: block;
+    height: auto;
+}
+
+.details-wave--gifts .details-wave__icon {
+    color: var(--color-light);
+}
+
+.details-wave__title {
+    font-family: "modish", sans-serif;
+    font-size: 1.5625rem;
+    line-height: 1.1;
+    font-weight: 500;
+}
+
+.details-wave__title--script {
+    font-family: "modish", serif;
+    font-size: 2.1875rem;
+    line-height: 0.95;
+    font-weight: 400;
+}
+
+.details-wave__subtitle {
+    margin-top: 0.35rem;
+    font-family: "edu-nsw-act-hand-precursive", sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    font-weight: 500;
+}
+
+.details-wave__subtitle--accent {
+    color: var(--color-accent);
+}
+
+.details-wave__subtitle--light {
+    color: var(--color-light);
+}
+
+.details-wave__text {
+    margin-top: 0.95rem;
+    max-width: 15rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "josefin-sans", sans-serif;
+    font-size: 0.6875rem;
+    line-height: 1.35;
+    font-weight: 400;
+}
+
+.details-wave__text--light {
+    color: var(--color-soft);
+}
+
+.details-wave__ticket-link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.details-wave__ticket-icon {
+    width: 84px;
+    height: auto;
+    color: var(--color-dark);
+}
+
+.details-wave__hint {
+    margin-top: 0.8rem;
+    font-family: "josefin-sans", sans-serif;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    color: var(--color-dark);
+}
+
+.memories-section {
+    background-color: var(--color-main);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    padding: 18rem 0 2.5rem;
+}
+
+.memories-section__content {
+    padding: 0 1.25rem;
+}
+
+.memories-section__title {
+    margin: 0;
+    font-family: "modish", serif;
+    font-size: 2.1875rem; /* 35px */
+    line-height: 0.95;
+    font-weight: 400;
+    color: var(--color-dark);
+}
+
+.memories-section__text {
+    margin-top: 0.8rem;
+    max-width: 22rem;
+    font-family: "edu-nsw-act-hand-precursive", sans-serif;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    font-weight: 500;
+    color: var(--color-light);
+}
+
+.memories-carousel {
+    margin-top: 1.4rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.memories-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.memories-carousel__track {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+    padding-right: 1.25rem;
+}
+
+.memories-carousel__slide {
+    flex: 0 0 13.75rem;
+    scroll-snap-align: start;
+}
+
+.memories-carousel__slide img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.memories-carousel__nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.memories-carousel__dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.memories-carousel__arrow {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.memories-carousel__arrow:active {
+    transform: scale(0.92);
+}
+
+.memories-carousel__arrow:disabled {
+    opacity: 0.35;
+    cursor: default;
+    box-shadow: none;
+}
+
+.memories-carousel__dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    background-color: color-mix(in srgb, var(--color-light) 45%, transparent);
+    cursor: pointer;
+}
+
+.memories-carousel__dot.is-active {
+    background-color: var(--color-light);
+}
+
+.album-section {
+    background-color: var(--color-paper);
+    background-image: url("../assets/paper-texture-gray.webp");
+    background-blend-mode: multiply;
+    background-repeat: repeat;
+    background-size: cover;
+    padding: 3rem 1.5rem 3.5rem;
+}
+
+.album-section__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.album-section__title {
+    margin: 0;
+    font-family: "modish", serif;
+    font-size: 2.1875rem; /* 35px */
+    line-height: 1.15;
+    font-weight: 400;
+    color: var(--color-dark);
+}
+
+.album-section__text {
+    margin: 0;
+}
+
+.album-section__text--accent {
+    margin-top: 1.5rem;
+    max-width: 18rem;
+    font-family: "edu-nsw-act-hand-precursive", sans-serif;
+    font-size: 1rem;
+    line-height: 1.45;
+    font-weight: 500;
+    color: var(--color-accent);
+}
+
+.album-section__hashtag {
+    margin: 1rem 0 0;
+    font-family: "josefin-sans", sans-serif;
+    font-size: 2rem;
+    line-height: 1.1;
+    font-weight: 600;
+    color: var(--color-dark);
+}
+
+.album-section__qr-link {
+    display: block;
+    margin-top: 2rem;
+}
+
+/* El QR lo dibuja main.js como SVG con los colores de la paleta */
+.album-section__qr {
+    display: block;
+    width: 12rem;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 0.6rem;
+    border-radius: 1rem;
+    background-color: var(--color-light);
+    color: var(--color-dark);
+}
+
+.album-section__qr svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+
+.final-card-section__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--color-main);
+}
+
+.final-card-section__card {
+    width: 100%;
+    padding: 1rem;
+}
+
+/* ===== TARJETA FINAL =====
+   Las medidas usan "cqw" (1cqw = 1% del ancho de la tarjeta),
+   así la tarjeta se ve igual en cualquier celular. */
+
+.final-card {
+    container-type: inline-size;
+    overflow: hidden;
+    padding-top: 3.7cqw;
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    text-align: center;
+}
+
+.final-card__photo {
+    display: block;
+    width: 92cqw;
+    height: auto;
+    margin: 0 auto;
+    aspect-ratio: 1040 / 634;
+    object-fit: cover;
+}
+
+.final-card__text {
+    margin: 3.2cqw auto 0;
+    font-family: "edu-nsw-act-hand-precursive", sans-serif;
+    font-size: 4.4cqw;
+    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+}
+
+.final-card__landmarks {
+    width: 99cqw;
+    height: auto;
+    margin: 2.6cqw 0 0;
+    color: var(--color-main);
+}
+
+.final-card__closing {
+    width: 43cqw;
+    height: auto;
+    margin: 4.8cqw auto 0;
+}
+
+.final-card__mrz {
+    margin-top: 4.5cqw;
+    padding-bottom: 2cqw;
+}
+
+.final-card__mrz-line {
+    display: flex;
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: "alegreya", serif;
+    font-size: 5cqw;
+    line-height: 1.55;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+}
+
+/* La segunda línea se alinea a la derecha y se corta por la izquierda */
+.final-card__mrz-line--end {
+    justify-content: flex-end;
+}
+
+.final-card-section__credit {
+    margin: 0;
+    width: 100%;
+    padding: 0.9rem 0;
+    text-align: center;
+    font-family: "josefin-sans", sans-serif;
+    font-size: 1rem;
+    line-height: 1.2;
+    font-weight: 400;
+    color: var(--color-accent);
+    background-color: var(--color-light);
+}
+
+/* ===== BOTÓN DE MÚSICA ===== */
+
+.music-toggle {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-soft);
+  color: var(--color-dark);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.2s ease;
+}
+
+.music-toggle.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.music-toggle.is-playing {
+  transform: scale(1.05);
+}
+
+.music-toggle:active {
+  transform: scale(0.96);
+}
+
+/* ===== AVISO DE DEMO (botón de confirmar) ===== */
+
+.demo-notice {
+  position: fixed;
+  left: 50%;
+  top: 20px;
+  width: min(calc(100% - 30px), 21rem);
+  padding: 0.9rem 1rem;
+  border-radius: 0.75rem;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  font-family: "josefin-sans", sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  text-align: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -10px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+}
+
+.demo-notice.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+@media (min-width: 768px) {
+    :root {
+        --mobile-frame-width: 23.4375rem;
+    }
+
+    body {
+        background-color: var(--color-light);
+    }
+
+    body.invitation-open {
+        background-color: var(--color-main);
+    }
+
+    .invitation-content {
+        box-shadow: 0px 0px 20px 5px rgba(0,0,0,0.2); 
+    }
+
+    .passport-cover,
+    #invitationContent {
+        width: min(100%, var(--mobile-frame-width));
+        margin: 0 auto;
+    }
+
+    .passport-cover {
+        min-height: 100vh;
+    }
+
+    .passport-cover__content {
+        max-width: none;
+    }
+
+    .details-wave--rsvp {
+        top: 60rem;
+    }
+    .details-wave--rsvp .details-wave__content {
+        top: 1.5rem;
+    }
+    .memories-section {
+        padding: 16rem 0 2.5rem;
+    }
+}
