@@ -108,16 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ===== PASAJEROS ===== */
-  const params = new URLSearchParams(window.location.search);
-  const guestCode = params.get("inv");
-  const passengersElement = document.getElementById("passengers");
-
-  if (passengersElement) {
-    const hasGuest = guestCode && Object.prototype.hasOwnProperty.call(DEMO_GUESTS, guestCode);
-    passengersElement.textContent = hasGuest ? DEMO_GUESTS[guestCode] : CONFIG.defaultPassengers;
-  }
-
   /* ===== FAVICON =====
      Círculo con las iniciales, en los colores de la paleta. */
   const favicon = document.getElementById("favicon");
@@ -184,22 +174,253 @@ document.addEventListener("DOMContentLoaded", () => {
     albumLink.closest(".album-section__qr-link")?.remove();
   }
 
-  /* ===== CONFIRMAR ASISTENCIA ===== */
-  const rsvpLink = document.getElementById("rsvpLink");
+  /* ===== INVITADO + CONFIRMACIÓN DE ASISTENCIA =====
+     1. Lee el código del enlace (?inv=XXXX).
+     2. Le pregunta a la hoja de Google (Apps Script) el nombre y
+        el cupo de ESE código. La lista completa nunca llega aquí.
+     3. El formulario guarda la respuesta en la hoja.
+     Sin CONFIG.rsvp.scriptUrl funciona en modo demo con
+     DEMO_GUESTS (config.js) y no guarda nada. */
+  const rsvpConfig = CONFIG.rsvp || {};
+  const isDemo = !rsvpConfig.scriptUrl;
+  const rawCode = new URLSearchParams(window.location.search).get("inv") || "";
+  const guestCode = /^[A-Za-z0-9]{8,32}$/.test(rawCode) ? rawCode : "";
+
+  const passengersElement = document.getElementById("passengers");
+  const rsvpOpen = document.getElementById("rsvpOpen");
+  const rsvpHint = document.getElementById("rsvpHint");
+  const rsvpDialog = document.getElementById("rsvpDialog");
+  const rsvpForm = document.getElementById("rsvpForm");
+  const rsvpDone = document.getElementById("rsvpDone");
+  const rsvpNoCode = document.getElementById("rsvpNoCode");
+  const rsvpError = document.getElementById("rsvpError");
+  const rsvpSubmit = document.getElementById("rsvpSubmit");
+  const attendingFields = document.getElementById("rsvpAttendingFields");
+  const peopleOutput = document.getElementById("rsvpPeople");
+  const lessButton = document.getElementById("rsvpLess");
+  const moreButton = document.getElementById("rsvpMore");
   const demoNotice = document.getElementById("demoNotice");
 
-  if (rsvpLink) {
-    if (CONFIG.rsvpUrl) {
-      rsvpLink.href = CONFIG.rsvpUrl;
-    } else {
-      rsvpLink.addEventListener("click", (event) => {
-        event.preventDefault();
-        if (!demoNotice) return;
-        demoNotice.classList.add("is-visible");
-        clearTimeout(demoNotice._timer);
-        demoNotice._timer = setTimeout(() => demoNotice.classList.remove("is-visible"), 3500);
-      });
+  let guest = null;   // { name, seats, response }
+  let people = 1;
+
+  if (passengersElement) passengersElement.textContent = CONFIG.defaultPassengers;
+
+  // Pide los datos con un límite de tiempo, para no quedarse esperando
+  async function fetchJson(url, options = {}) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 12000);
+    try {
+      const response = await fetch(url, { ...options, signal: controller.signal });
+      return await response.json();
+    } finally {
+      clearTimeout(timer);
     }
+  }
+
+  async function loadGuest() {
+    if (!guestCode) return null;
+
+    if (isDemo) {
+      const demo = DEMO_GUESTS[guestCode];
+      return demo ? { name: demo.name, seats: demo.seats, response: null } : null;
+    }
+
+    const url = `${rsvpConfig.scriptUrl}?action=guest&code=${encodeURIComponent(guestCode)}`;
+    const data = await fetchJson(url);
+    return data.ok ? { name: data.name, seats: data.seats, response: data.response } : null;
+  }
+
+  function seatsText(count) {
+    return `${count} ${count === 1 ? "lugar reservado" : "lugares reservados"}`;
+  }
+
+  function updateHint() {
+    if (!rsvpHint) return;
+    rsvpHint.textContent = guest && guest.response
+      ? "¡Ya confirmaste! ✓ (toca los tickets para cambiar)"
+      : "(Haz click en los tickets)";
+  }
+
+  // El nombre llega en menos de un segundo; mientras tanto se ve el texto por defecto
+  const guestReady = loadGuest()
+    .then(found => {
+      guest = found;
+      if (guest && passengersElement) passengersElement.textContent = guest.name;
+      updateHint();
+    })
+    .catch(error => console.warn("No se pudo cargar el invitado:", error));
+
+  function setPeople(value) {
+    const max = guest ? guest.seats : 1;
+    people = Math.min(Math.max(value, 1), max);
+    peopleOutput.textContent = people;
+    lessButton.disabled = people <= 1;
+    moreButton.disabled = people >= max;
+  }
+
+  function showView(view) {
+    rsvpForm.hidden = view !== "form";
+    rsvpDone.hidden = view !== "done";
+    rsvpNoCode.hidden = view !== "nocode";
+  }
+
+  function showError(message) {
+    rsvpError.textContent = message;
+    rsvpError.hidden = !message;
+  }
+
+  function fillForm() {
+    document.getElementById("rsvpGuest").textContent = `${guest.name} · ${seatsText(guest.seats)}`;
+    document.getElementById("rsvpSeatsHelp").textContent =
+      `Tu invitación tiene ${seatsText(guest.seats)}.`;
+
+    const deadline = document.getElementById("rsvpDeadline");
+    deadline.textContent = rsvpConfig.deadline || "";
+    deadline.hidden = !rsvpConfig.deadline;
+
+    const previous = guest.response;
+    rsvpForm.reset();
+    if (previous) {
+      rsvpForm.querySelector(`input[name="attending"][value="${previous.attending}"]`).checked = true;
+      rsvpForm.elements.diet.value = previous.diet || "";
+      rsvpForm.elements.message.value = previous.message || "";
+    }
+    setPeople(previous && previous.people ? previous.people : guest.seats);
+    attendingFields.hidden = !(previous && previous.attending === "si");
+    showError("");
+  }
+
+  function showDone() {
+    const answer = guest.response;
+    document.getElementById("rsvpDoneTitle").textContent =
+      answer.attending === "si" ? "¡Nos vemos!" : "Gracias por avisarnos";
+    document.getElementById("rsvpDoneText").textContent = answer.attending === "si"
+      ? `Guardamos ${answer.people === 1 ? "1 lugar" : answer.people + " lugares"} a nombre de ${guest.name}. ¡Te esperamos!`
+      : "Te vamos a extrañar. Gracias por responder.";
+    showView("done");
+  }
+
+  function openDialog() {
+    if (typeof rsvpDialog.showModal === "function") rsvpDialog.showModal();
+    else rsvpDialog.setAttribute("open", "");
+  }
+
+  function closeDialog() {
+    if (typeof rsvpDialog.close === "function") rsvpDialog.close();
+    else rsvpDialog.removeAttribute("open");
+  }
+
+  if (rsvpOpen && rsvpDialog) {
+    rsvpOpen.addEventListener("click", async () => {
+      await guestReady;
+      let connectionFailed = false;
+      if (!guest && guestCode) {
+        // Reintento por si falló la conexión al abrir la página
+        try { guest = await loadGuest(); } catch (error) { guest = null; connectionFailed = true; }
+        if (guest && passengersElement) passengersElement.textContent = guest.name;
+      }
+
+      if (!guest) {
+        const [title, text] = connectionFailed
+          ? ["Sin conexión", "No pudimos cargar tu invitación. Revisa tu internet y vuelve a tocar los tickets."]
+          : ["Usa tu enlace personal", "Para confirmar, abre la invitación desde el enlace que te enviaron. Ese enlace trae tu nombre y tus lugares reservados."];
+        rsvpNoCode.querySelector(".rsvp__title").textContent = title;
+        rsvpNoCode.querySelector(".rsvp__done-text").textContent = text;
+        showView("nocode");
+      } else if (guest.response) {
+        showDone();
+      } else {
+        fillForm();
+        showView("form");
+      }
+      openDialog();
+    });
+
+    document.getElementById("rsvpClose").addEventListener("click", closeDialog);
+
+    // Tocar fuera de la ventana también la cierra
+    rsvpDialog.addEventListener("click", event => {
+      if (event.target === rsvpDialog) closeDialog();
+    });
+
+    document.getElementById("rsvpEdit").addEventListener("click", () => {
+      fillForm();
+      showView("form");
+    });
+
+    rsvpForm.addEventListener("change", event => {
+      if (event.target.name === "attending") {
+        attendingFields.hidden = event.target.value !== "si";
+        showError("");
+      }
+    });
+
+    lessButton.addEventListener("click", () => setPeople(people - 1));
+    moreButton.addEventListener("click", () => setPeople(people + 1));
+
+    rsvpForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      const attending = rsvpForm.elements.attending.value;
+      if (!attending) {
+        showError("Cuéntanos si vas a asistir.");
+        return;
+      }
+
+      const answer = {
+        action: "rsvp",
+        code: guestCode,
+        attending,
+        people: attending === "si" ? people : 0,
+        diet: attending === "si" ? rsvpForm.elements.diet.value.trim() : "",
+        message: rsvpForm.elements.message.value.trim()
+      };
+
+      showError("");
+      rsvpSubmit.disabled = true;
+      rsvpSubmit.textContent = "Enviando…";
+
+      try {
+        if (isDemo) {
+          await new Promise(resolve => setTimeout(resolve, 600));
+          if (demoNotice) {
+            demoNotice.classList.add("is-visible");
+            clearTimeout(demoNotice._timer);
+            demoNotice._timer = setTimeout(() => demoNotice.classList.remove("is-visible"), 3500);
+          }
+        } else {
+          // "text/plain" evita un paso extra del navegador que Apps Script no acepta
+          const result = await fetchJson(rsvpConfig.scriptUrl, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(answer)
+          });
+          if (!result.ok) {
+            const messages = {
+              personas_fuera_de_cupo: `Tu invitación tiene ${seatsText(result.seats || guest.seats)}.`,
+              no_encontrado: "No encontramos tu invitación. Abre de nuevo el enlace que te enviaron."
+            };
+            throw new Error(messages[result.error] || "No pudimos guardar tu respuesta.");
+          }
+        }
+
+        guest.response = {
+          attending: answer.attending,
+          people: answer.people,
+          diet: answer.diet,
+          message: answer.message
+        };
+        updateHint();
+        showDone();
+      } catch (error) {
+        showError(error.name === "AbortError" || error instanceof TypeError || error instanceof SyntaxError
+          ? "No pudimos conectarnos. Revisa tu internet e intenta de nuevo."
+          : error.message);
+      } finally {
+        rsvpSubmit.disabled = false;
+        rsvpSubmit.textContent = "Enviar confirmación";
+      }
+    });
   }
 
   /* ===== CARRUSEL DE RECUERDOS ===== */

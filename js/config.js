@@ -41,9 +41,19 @@ const CONFIG = {
     volume: 0.7
   },
 
+  /* ----- Confirmación de asistencia -----
+     scriptUrl: la URL de la "Aplicación web" del Apps Script de la
+       hoja de Google del evento (termina en /exec). Ver
+       apps-script/LEEME.md.
+       Si queda vacía, la invitación funciona en MODO DEMO con los
+       invitados de prueba de abajo y no guarda nada.
+     deadline: texto opcional con la fecha límite para confirmar. */
+  rsvp: {
+    scriptUrl: "",
+    deadline: "Confirma antes del 15 de noviembre"
+  },
+
   /* ----- Enlaces ----- */
-  // Botón "Confirma tu asistencia". Vacío = aviso de demostración.
-  rsvpUrl: "",
   // Álbum de fotos. El código QR se genera solo con este enlace.
   albumUrl: "https://www.instagram.com/maparisti/",
 
@@ -52,14 +62,15 @@ const CONFIG = {
   defaultPassengers: "Invitado especial"
 };
 
-/* Invitados DE PRUEBA (no son personas reales).
+/* Invitados DE PRUEBA (no son personas reales). Solo se usan
+   cuando rsvp.scriptUrl está vacío (modo demo).
    Cada enlace usa un código largo: index.html?inv=ej7Hq2Lm9Xa4
-   En las invitaciones reales, la lista NO va aquí: se consulta
-   a la hoja de Google mediante Apps Script. */
+   En las invitaciones REALES esto queda vacío: {}
+   La lista vive en la hoja de Google, nunca en el sitio. */
 const DEMO_GUESTS = {
-  ej7Hq2Lm9Xa4: "Ana, Carlos",
-  ej3Rt8Pw5Kd1: "Laura, Andrés, Sofía",
-  ej9Vb4Nc6Zs2: "Daniela"
+  ej7Hq2Lm9Xa4: { name: "Ana y Carlos", seats: 2 },
+  ej3Rt8Pw5Kd1: { name: "Familia Gómez", seats: 4 },
+  ej9Vb4Nc6Zs2: { name: "Daniela", seats: 1 }
 };
 
 

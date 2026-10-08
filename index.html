@@ -208,17 +208,14 @@
                             Confirma tu asistencia
                         </p>
 
-                        <a class="details-wave__ticket-link"
-                            id="rsvpLink"
-                            href="#"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Confirmar asistencia">
-
+                        <!-- Abre el formulario de confirmación (ver <dialog id="rsvpDialog">) -->
+                        <button class="details-wave__ticket-link" id="rsvpOpen" type="button"
+                            aria-haspopup="dialog" aria-controls="rsvpDialog">
                             <svg class="details-wave__ticket-icon" viewBox="0 0 84.16 87.54" aria-hidden="true"><use href="#icon-ticket"></use></svg>
-                        </a>
+                            <span class="visually-hidden">Confirmar asistencia</span>
+                        </button>
 
-                        <p class="details-wave__hint">(Haz click en los tickets)</p>
+                        <p class="details-wave__hint" id="rsvpHint">(Haz click en los tickets)</p>
                     </div>
                 </div>
             </section>
@@ -340,8 +337,83 @@
             </section>
         </div>
     </main>
+    <!-- ===== CONFIRMACIÓN DE ASISTENCIA =====
+         Formulario en una ventana (dialog). Lo maneja js/main.js y
+         guarda en la hoja de Google mediante el Apps Script. -->
+    <dialog class="rsvp" id="rsvpDialog" aria-labelledby="rsvpTitle">
+        <button class="rsvp__close" id="rsvpClose" type="button" aria-label="Cerrar">×</button>
+
+        <!-- Vista 1: el formulario -->
+        <form class="rsvp__form" id="rsvpForm" novalidate>
+            <p class="rsvp__kicker">Pase de abordar</p>
+            <h2 class="rsvp__title" id="rsvpTitle">¿Nos acompañas?</h2>
+            <p class="rsvp__guest" id="rsvpGuest"></p>
+            <p class="rsvp__deadline" id="rsvpDeadline" hidden></p>
+
+            <fieldset class="rsvp__field">
+                <legend class="rsvp__label">¿Asistirás?</legend>
+                <div class="rsvp__choices">
+                    <label class="rsvp__choice">
+                        <input type="radio" name="attending" value="si" required>
+                        <span>¡Sí, ahí estaré!</span>
+                    </label>
+                    <label class="rsvp__choice">
+                        <input type="radio" name="attending" value="no">
+                        <span>No podré ir</span>
+                    </label>
+                </div>
+            </fieldset>
+
+            <!-- Solo aparece si asiste -->
+            <div class="rsvp__attending-fields" id="rsvpAttendingFields" hidden>
+                <div class="rsvp__field">
+                    <span class="rsvp__label" id="rsvpPeopleLabel">¿Cuántas personas van?</span>
+                    <div class="rsvp__stepper" role="group" aria-labelledby="rsvpPeopleLabel">
+                        <button type="button" class="rsvp__step" id="rsvpLess" aria-label="Una persona menos">−</button>
+                        <output class="rsvp__count" id="rsvpPeople" aria-live="polite">1</output>
+                        <button type="button" class="rsvp__step" id="rsvpMore" aria-label="Una persona más">+</button>
+                    </div>
+                    <p class="rsvp__help" id="rsvpSeatsHelp"></p>
+                </div>
+
+                <label class="rsvp__field">
+                    <span class="rsvp__label">Dieta o alergias <span class="rsvp__optional">(opcional)</span></span>
+                    <input class="rsvp__input" type="text" name="diet" maxlength="200"
+                        placeholder="Ej: vegetariana, alergia al maní">
+                </label>
+            </div>
+
+            <label class="rsvp__field">
+                <span class="rsvp__label">Mensaje para los novios <span class="rsvp__optional">(opcional)</span></span>
+                <textarea class="rsvp__input rsvp__textarea" name="message" maxlength="500" rows="3"></textarea>
+            </label>
+
+            <p class="rsvp__error" id="rsvpError" role="alert" hidden></p>
+
+            <button class="rsvp__submit" id="rsvpSubmit" type="submit">Enviar confirmación</button>
+        </form>
+
+        <!-- Vista 2: gracias -->
+        <div class="rsvp__done" id="rsvpDone" hidden>
+            <p class="rsvp__kicker">Confirmado</p>
+            <h2 class="rsvp__title" id="rsvpDoneTitle">¡Gracias!</h2>
+            <p class="rsvp__done-text" id="rsvpDoneText"></p>
+            <button class="rsvp__submit rsvp__submit--ghost" id="rsvpEdit" type="button">Cambiar mi respuesta</button>
+        </div>
+
+        <!-- Vista 3: sin enlace personal -->
+        <div class="rsvp__done" id="rsvpNoCode" hidden>
+            <p class="rsvp__kicker">Confirmación</p>
+            <h2 class="rsvp__title">Usa tu enlace personal</h2>
+            <p class="rsvp__done-text">
+                Para confirmar, abre la invitación desde el enlace que te enviaron.
+                Ese enlace trae tu nombre y tus lugares reservados.
+            </p>
+        </div>
+    </dialog>
+
     <div id="demoNotice" class="demo-notice" role="status">
-        Esta es una invitación de ejemplo. Aquí tus invitados confirman su asistencia.
+        Invitación de ejemplo: la respuesta no se guarda.
     </div>
 
     <!-- Música: el archivo se define en js/config.js (CONFIG.music.file) -->

@@ -6,7 +6,7 @@ Los nombres, invitados y enlaces son ficticios.
 ## Cómo probarla
 
 - Sin código: `index.html` → muestra "Invitado especial".
-- Con invitado de prueba: `index.html?inv=ej7Hq2Lm9Xa4` (también `ej3Rt8Pw5Kd1` y `ej9Vb4Nc6Zs2`).
+- Con invitado de prueba: `index.html?inv=ej7Hq2Lm9Xa4` (también `ej3Rt8Pw5Kd1` y `ej9Vb4Nc6Zs2`). En modo demo puedes confirmar, pero no se guarda.
 
 ## Qué se cambia por cliente
 
@@ -16,13 +16,13 @@ Todo está en **`js/config.js`** (el único archivo que se edita por cliente):
 - `customColors`: colores puntuales a la medida (opcional).
 - `names`: nombres de la pareja (tarjeta final y favicon).
 - `music`: canción de fondo (archivo en `audio/`, segundo de inicio y volumen). Suena al tocar la portada. Solo música libre de derechos.
-- `rsvpUrl`: enlace del botón "Confirma tu asistencia".
+- `rsvp.scriptUrl`: URL del Apps Script de la hoja de Google del evento (vacía = modo demo). `rsvp.deadline`: fecha límite para confirmar.
 - `albumUrl`: enlace del álbum; el código QR se genera solo.
 - `defaultPassengers`: texto cuando no hay código de invitado.
 
 Para mostrar otra paleta sin tocar nada: agrega `?tema=salvia` (o `marino`, `terracota`) al enlace.
 
-En las invitaciones reales, la lista de invitados no va en el sitio: se consulta a una hoja de Google mediante Apps Script.
+En las invitaciones reales, la lista de invitados no va en el sitio: se consulta a una hoja de Google mediante Apps Script, y la confirmación se guarda ahí. Paso a paso en `apps-script/LEEME.md`.
 
 ## Cómo funcionan los colores
 
@@ -42,6 +42,7 @@ js/   config.js (cliente) · dibujos.js · main.js · qrcode.min.js
 assets/  fotos, texturas y sello
 audio/   canción de fondo
 diseno-fuente/  SVG originales (referencia)
+apps-script/    código de la hoja de Google (confirmación) + instrucciones
 ```
 
 ## Créditos de fotos
