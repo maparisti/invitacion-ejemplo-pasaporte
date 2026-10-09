@@ -70,7 +70,10 @@ const CONFIG = {
   },
 
   /* ----- Enlaces ----- */
-  // Álbum de fotos. El código QR se genera solo con este enlace.
+  /* Álbum de fotos: enlace de un álbum compartido de Google Fotos
+     que crea LA PAREJA en su cuenta (Compartir > activar
+     "Colaborar" > copiar enlace). Las fotos quedan en su cuenta.
+     El código QR se genera solo con este enlace. */
   albumUrl: "https://www.instagram.com/maparisti/",
 
   /* ----- Invitados ----- */

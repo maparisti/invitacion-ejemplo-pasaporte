@@ -1473,3 +1473,14 @@ body.invitation-locked {
 .nowrap {
     white-space: nowrap;
 }
+
+/* Aviso bajo el QR del álbum */
+.album-section__note {
+    margin: 0.75rem 0 0;
+    font-family: "josefin-sans", sans-serif;
+    font-size: 0.8125rem;
+    line-height: 1.3;
+    text-align: center;
+    color: var(--color-dark);
+    opacity: 0.8;
+}
