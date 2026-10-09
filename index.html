@@ -63,6 +63,29 @@
                         </div>
                     </div>
 
+                    <!-- ===== CONTADOR (etiqueta de equipaje) =====
+                         Fecha: CONFIG.eventDate · código: CONFIG.airportCode
+                         (js/config.js). Lo actualiza js/main.js cada segundo.
+                         Otros estilos de contador: diseno-fuente/contadores-opciones.html -->
+                    <section class="countdown" id="countdown" aria-label="Cuenta regresiva para el evento">
+                        <div class="luggage-tag">
+                            <div class="luggage-tag__body">
+                                <p class="luggage-tag__label" id="countdownLabel">EMBARQUE EN</p>
+                                <div class="luggage-tag__row" id="countdownBoard" role="timer" aria-live="off">
+                                    <p class="luggage-tag__unit"><span class="luggage-tag__num" data-unit="days">--</span><span class="luggage-tag__name">días</span></p>
+                                    <p class="luggage-tag__unit"><span class="luggage-tag__num" data-unit="hours">--</span><span class="luggage-tag__name">h</span></p>
+                                    <p class="luggage-tag__unit"><span class="luggage-tag__num" data-unit="minutes">--</span><span class="luggage-tag__name">min</span></p>
+                                    <p class="luggage-tag__unit"><span class="luggage-tag__num" data-unit="seconds">--</span><span class="luggage-tag__name">seg</span></p>
+                                </div>
+                                <p class="luggage-tag__message" id="countdownMessage" hidden></p>
+                            </div>
+                            <p class="luggage-tag__dest">
+                                <span id="countdownCode">BOG</span>
+                                <small id="countdownDate"></small>
+                            </p>
+                        </div>
+                    </section>
+
                     <article class="boarding-pass">
                         <div class="boarding-pass__photo-wrapper">
                             <img
@@ -332,7 +355,7 @@
                         </article>
                     </div>
 
-                    <p class="final-card-section__credit">Designed by @maparisti - @dreamerlab</p>
+                    <p class="final-card-section__credit">Una invitación de <span class="nowrap">Nos vemos, Paloma</span> <span class="nowrap">· by maparisti</span></p>
                 </div>
             </section>
         </div>

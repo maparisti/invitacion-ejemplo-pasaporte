@@ -27,6 +27,22 @@ const CONFIG = {
     second: "Juan"
   },
 
+  /* ----- Fecha y hora del evento (para el contador) -----
+     Formato: "AAAA-MM-DDTHH:MM:00" + la zona horaria del LUGAR
+     del evento, para que el contador sea exacto aunque el
+     invitado esté en otro país.
+       Colombia, Perú, Ecuador:  -05:00
+       México (centro):          -06:00
+       España (invierno):        +01:00 · (verano): +02:00
+     Ejemplo: 18 de diciembre de 2026, 4:00 p.m. en Bogotá
+     Si queda vacío "", el contador no aparece. */
+  eventDate: "2026-12-18T16:00:00-05:00",
+
+  /* Código de 3 letras del destino que sale en la etiqueta de
+     equipaje del contador (como los aeropuertos): BOG, MDE,
+     CTG, CLO, CUN, MEX... Puede ser cualquier sigla corta. */
+  airportCode: "BOG",
+
   /* ----- Música -----
      Suena cuando el invitado toca la portada.
      Usa SOLO música libre de derechos (o con licencia del

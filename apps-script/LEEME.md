@@ -7,6 +7,7 @@ La invitación no guarda la lista de invitados. Le pregunta a una hoja de Google
 ## 1. Crear la hoja (desde la cuenta de Google del negocio)
 
 1. Crea una hoja de cálculo nueva en Google Sheets. Nómbrala, por ejemplo, `Boda Ana y Carlos – Confirmaciones`.
+   - **Archivo › Configuración › Configuración regional: México.** Las fórmulas del código usan comas; con Colombia o España salen en #ERROR!. (Si haces copia de la plantilla, ya viene así.)
 2. Menú **Extensiones › Apps Script**.
 3. Borra lo que trae el editor, pega todo el contenido de `apps-script/Codigo.gs` y guarda (ícono de disquete).
 4. Arriba, en el selector de funciones, elige **setupSheet** y dale **Ejecutar**.

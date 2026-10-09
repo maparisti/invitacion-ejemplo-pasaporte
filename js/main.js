@@ -22,6 +22,63 @@ document.addEventListener("DOMContentLoaded", () => {
   const invitationContent = document.getElementById("invitationContent");
   const passportCover = document.querySelector(".passport-cover");
 
+  /* ===== CONTADOR (etiqueta de equipaje) =====
+     Cuenta regresiva hasta CONFIG.eventDate. El día del evento
+     muestra un mensaje, y después otro de agradecimiento. */
+  const countdown = document.getElementById("countdown");
+  const eventTime = Date.parse(CONFIG.eventDate || "");
+
+  if (countdown && Number.isNaN(eventTime)) {
+    countdown.hidden = true; // sin fecha válida, no se muestra
+  } else if (countdown) {
+    const board = document.getElementById("countdownBoard");
+    const label = document.getElementById("countdownLabel");
+    const message = document.getElementById("countdownMessage");
+    const numbers = {};
+    board.querySelectorAll("[data-unit]").forEach(el => { numbers[el.dataset.unit] = el; });
+
+    // Código y fecha de la etiqueta. La fecha se toma tal cual está
+    // escrita en eventDate (día y mes del lugar del evento).
+    const months = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
+    const [, month, day] = CONFIG.eventDate.slice(0, 10).split("-").map(Number);
+    document.getElementById("countdownCode").textContent = CONFIG.airportCode || "";
+    document.getElementById("countdownDate").textContent = `${day} ${months[month - 1]}`;
+
+    const pad = n => String(n).padStart(2, "0");
+    let timerId = null;
+
+    function showMessage(labelText, text) {
+      board.hidden = true;
+      label.textContent = labelText;
+      message.textContent = text;
+      message.hidden = false;
+      clearInterval(timerId);
+    }
+
+    function tick() {
+      const diff = eventTime - Date.now();
+
+      if (diff <= 0) {
+        // Hasta 24 h después del inicio: es "hoy"
+        if (diff > -24 * 60 * 60 * 1000) {
+          showMessage("HOY DESPEGAMOS", "¡Es el gran día!");
+        } else {
+          showMessage("VUELO COMPLETADO", "Gracias por viajar con nosotros");
+        }
+        return;
+      }
+
+      const totalSeconds = Math.floor(diff / 1000);
+      numbers.days.textContent = Math.floor(totalSeconds / 86400);
+      numbers.hours.textContent = pad(Math.floor(totalSeconds / 3600) % 24);
+      numbers.minutes.textContent = pad(Math.floor(totalSeconds / 60) % 60);
+      numbers.seconds.textContent = pad(totalSeconds % 60);
+    }
+
+    tick();
+    timerId = setInterval(tick, 1000);
+  }
+
   /* ===== MÚSICA =====
      La canción empieza a sonar cuando el invitado toca
      "Toca aquí para continuar". Los navegadores solo dejan

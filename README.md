@@ -15,6 +15,10 @@ Todo está en **`js/config.js`** (el único archivo que se edita por cliente):
 - `theme`: paleta de colores → `"rosa"`, `"salvia"`, `"marino"` o `"terracota"`.
 - `customColors`: colores puntuales a la medida (opcional).
 - `names`: nombres de la pareja (tarjeta final y favicon).
+- `eventDate`: fecha y hora del evento con la zona horaria del lugar (contador en forma de etiqueta de equipaje). Vacía = sin contador.
+- `airportCode`: sigla de 3 letras del destino que sale en la etiqueta (BOG, CTG, CUN...).
+
+Otros estilos de contador (sello, minimalista, ruta de vuelo) en `diseno-fuente/contadores-opciones.html`, por si un cliente prefiere otro.
 - `music`: canción de fondo (archivo en `audio/`, segundo de inicio y volumen). Suena al tocar la portada. Solo música libre de derechos.
 - `rsvp.scriptUrl`: URL del Apps Script de la hoja de Google del evento (vacía = modo demo). `rsvp.deadline`: fecha límite para confirmar.
 - `albumUrl`: enlace del álbum; el código QR se genera solo.
