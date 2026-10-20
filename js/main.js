@@ -564,6 +564,55 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /* ===== MODO RECUERDO (PDF) =====
+     Abre el enlace con ?recuerdo al final, por ejemplo:
+       https://boda-ana-carlos-7f3k.pages.dev/?recuerdo
+     y toca "Guardar recuerdo en PDF". Se arma una versión para
+     guardar: portada + toda la invitación en una sola página larga,
+     con los nombres de la pareja en el pase y las fotos del
+     carrusel en cuadrícula. Sin música, sin botón de confirmar. */
+  if (new URLSearchParams(window.location.search).has("recuerdo")) {
+    document.documentElement.classList.add("is-keepsake");
+    document.body.classList.remove("invitation-locked");
+    document.body.classList.add("invitation-open");
+    if (invitationContent) invitationContent.classList.add("invitation-content--visible");
+    if (openInvitationButton) openInvitationButton.hidden = true;
+    musicToggle?.remove();
+    // Sin botón de confirmar (se oculta sin mover el diseño)
+    ["rsvpOpen", "rsvpHint"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.visibility = "hidden";
+    });
+    demoNotice?.remove();
+
+    if (passengersElement && CONFIG.names) {
+      passengersElement.textContent = `${CONFIG.names.first} y ${CONFIG.names.second}`;
+    }
+
+    // Que todas las fotos carguen antes de guardar
+    document.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = "eager"; });
+
+    // Una sola página del alto exacto de la invitación
+    const pageStyle = document.createElement("style");
+    document.head.appendChild(pageStyle);
+    function fitPage() {
+      const height = Math.ceil(document.documentElement.scrollHeight);
+      pageStyle.textContent = `@page { size: 390px ${height}px; margin: 0; }`;
+    }
+    window.addEventListener("beforeprint", fitPage);
+
+    const saveButton = document.createElement("button");
+    saveButton.type = "button";
+    saveButton.className = "keepsake-save";
+    saveButton.textContent = "Guardar recuerdo en PDF";
+    saveButton.addEventListener("click", async () => {
+      await document.fonts.ready;
+      fitPage();
+      window.print();
+    });
+    document.body.appendChild(saveButton);
+  }
+
   /* ===== LOADER =====
      Se oculta cuando carga la portada, sin esperar
      las fotos de más abajo (que cargan con lazy loading). */

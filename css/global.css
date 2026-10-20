@@ -448,25 +448,6 @@ body.invitation-locked {
     letter-spacing: 0.15em;
 }
 
-@media (min-width: 768px) {
-    .luggage-tag {
-        max-width: 26rem;
-        padding: 1.1rem 1.4rem 1.1rem 3.25rem;
-    }
-
-    .luggage-tag__row {
-        gap: 1rem;
-    }
-
-    .luggage-tag__num {
-        font-size: 2.1rem;
-    }
-
-    .luggage-tag__dest {
-        font-size: 2rem;
-    }
-}
-
 .itinerary {
     position: relative;
     margin: 0 1rem;
@@ -1429,43 +1410,43 @@ body.invitation-locked {
 }
 
 @media (min-width: 768px) {
-    :root {
+    :root:not(.is-keepsake) {
         --mobile-frame-width: 23.4375rem;
     }
 
-    body {
+    :root:not(.is-keepsake) body {
         background-color: var(--color-light);
     }
 
-    body.invitation-open {
+    :root:not(.is-keepsake) body.invitation-open {
         background-color: var(--color-main);
     }
 
-    .invitation-content {
+    :root:not(.is-keepsake) .invitation-content {
         box-shadow: 0px 0px 20px 5px rgba(0,0,0,0.2); 
     }
 
-    .passport-cover,
-    #invitationContent {
+    :root:not(.is-keepsake) .passport-cover,
+    :root:not(.is-keepsake) #invitationContent {
         width: min(100%, var(--mobile-frame-width));
         margin: 0 auto;
     }
 
-    .passport-cover {
+    :root:not(.is-keepsake) .passport-cover {
         min-height: 100vh;
     }
 
-    .passport-cover__content {
+    :root:not(.is-keepsake) .passport-cover__content {
         max-width: none;
     }
 
-    .details-wave--rsvp {
+    :root:not(.is-keepsake) .details-wave--rsvp {
         top: 60rem;
     }
-    .details-wave--rsvp .details-wave__content {
+    :root:not(.is-keepsake) .details-wave--rsvp .details-wave__content {
         top: 1.5rem;
     }
-    .memories-section {
+    :root:not(.is-keepsake) .memories-section {
         padding: 16rem 0 2.5rem;
     }
 }
@@ -1483,4 +1464,95 @@ body.invitation-locked {
     text-align: center;
     color: var(--color-dark);
     opacity: 0.8;
+}
+
+/* ===== MODO RECUERDO (?recuerdo) =====
+   Versión para guardar en PDF. Ancho fijo de celular para que
+   la página se vea igual en pantalla y en el PDF. */
+.is-keepsake,
+.is-keepsake body {
+    width: 390px;
+    margin: 0 auto;
+    background-color: var(--color-light);
+}
+
+.is-keepsake * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.is-keepsake .passport-cover,
+.is-keepsake #invitationContent {
+    width: 390px;
+    margin: 0;
+    box-shadow: none;
+}
+
+.is-keepsake .passport-cover {
+    min-height: 844px;
+}
+
+.is-keepsake .passport-cover__content {
+    min-height: calc(844px - 4rem);
+}
+
+.is-keepsake .page-loader {
+    display: none;
+}
+
+/* Carrusel → cuadrícula con todas las fotos */
+.is-keepsake .memories-carousel {
+    overflow: visible;
+    padding: 0 1.25rem;
+}
+
+.is-keepsake .memories-carousel__track {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    width: auto;
+    padding: 0;
+}
+
+.is-keepsake .memories-carousel__nav {
+    display: none;
+}
+
+.keepsake-save {
+    position: fixed;
+    left: 50%;
+    bottom: 1.25rem;
+    z-index: 50;
+    transform: translateX(-50%);
+    padding: 0.85rem 1.4rem;
+    border: none;
+    border-radius: 999px;
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    font-family: "josefin-sans", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+@media print {
+    .keepsake-save {
+        display: none;
+    }
+}
+
+/* Línea del aviso de privacidad bajo el botón de confirmar */
+.rsvp__privacy {
+    margin: 0.25rem 0 0;
+    font-family: "josefin-sans", sans-serif;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    text-align: center;
+    opacity: 0.8;
+}
+
+.rsvp__privacy a {
+    color: inherit;
+    text-decoration: underline;
 }

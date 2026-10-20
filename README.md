@@ -28,6 +28,14 @@ Para mostrar otra paleta sin tocar nada: agrega `?tema=salvia` (o `marino`, `ter
 
 En las invitaciones reales, la lista de invitados no va en el sitio: se consulta a una hoja de Google mediante Apps Script, y la confirmación se guarda ahí. Paso a paso en `apps-script/LEEME.md`.
 
+## PDF de recuerdo (después del evento)
+
+1. Abre la invitación publicada con `?recuerdo` al final, en Chrome de computador. Ej: `https://boda-ana-carlos-7f3k.pages.dev/?recuerdo`
+2. Espera a que carguen las fotos y toca **Guardar recuerdo en PDF**.
+3. En la ventana de imprimir: Destino **Guardar como PDF** → Guardar.
+
+Sale un PDF de una sola página larga (como se ve en el celular), con los nombres de la pareja en el pase, las 6 fotos en cuadrícula, el QR del álbum y sin música ni botón de confirmar.
+
 ## Cómo funcionan los colores
 
 - `css/variables.css`: las paletas. Cada una tiene 6 colores con un rol fijo (dark, secondary, main, accent, soft, light).
