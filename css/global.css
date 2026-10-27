@@ -634,7 +634,8 @@ body.invitation-locked {
 
 .details-wave--rsvp {
     position: absolute;
-    top: 64rem;
+    /* min(): en pantallas angostas la foto queda más corta; así la ola nunca queda debajo del final de la foto */
+    top: min(64rem, calc(100% - 4rem));
 }
 
 /* ===== CONTENIDO ===== */
@@ -1441,7 +1442,7 @@ body.invitation-locked {
     }
 
     :root:not(.is-keepsake) .details-wave--rsvp {
-        top: 60rem;
+        top: min(60rem, calc(100% - 4rem));
     }
     :root:not(.is-keepsake) .details-wave--rsvp .details-wave__content {
         top: 1.5rem;
